@@ -1,4 +1,4 @@
-ComposerLockParser
+Composer .lock Parser
 ==================
 
 OOP reader of composer.lock file
@@ -19,11 +19,11 @@ Installation
 ------------
 ### Main Setup
 
-    ```json
-    "require": {
-        "t4web/composer-lock-parser": "0.1.*"
-    }
-    ```
+```json
+"require": {
+    "t4web/composer-lock-parser": "0.1.*"
+}
+```
 
 Usage
 ------------
