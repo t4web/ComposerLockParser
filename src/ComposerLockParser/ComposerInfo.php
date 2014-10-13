@@ -2,8 +2,6 @@
 
 namespace ComposerLockParser;
 
-use DateTime;
-
 class ComposerInfo {
 
     /**
@@ -54,7 +52,7 @@ class ComposerInfo {
     }
 
     /**
-     * @return PackagesCollection
+     * @return PackagesCollection of Package
      */
     public function getPackages()
     {
@@ -65,21 +63,7 @@ class ComposerInfo {
         $this->packages = new PackagesCollection();
 
         foreach($this->decodedValue['packages'] as $packageInfo) {
-            $this->packages[] = new Package(
-                $packageInfo['name'],
-                $packageInfo['version'],
-                $packageInfo['source'],
-                $packageInfo['dist'],
-                $packageInfo['require'],
-                isset($packageInfo['requireDev']) ? $packageInfo['requireDev'] : [],
-                $packageInfo['type'],
-                $packageInfo['autoload'],
-                isset($packageInfo['license']) ? $packageInfo['license'] : [],
-                isset($packageInfo['authors']) ? $packageInfo['authors'] : [],
-                $packageInfo['description'],
-                $packageInfo['keywords'],
-                new DateTime($packageInfo['time'])
-            );
+            $this->packages[] = Package::factory($packageInfo);
         }
 
         return $this->packages;

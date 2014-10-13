@@ -71,7 +71,7 @@ class Package {
      */
     private $time;
 
-    public function __construct($name, $version, array $source, array $dist, array $require,
+    private function __construct($name, $version, array $source, array $dist, array $require,
         array $requireDev, $type, array $autoload, array $license, array $authors, $description,
         array $keywords, DateTime $time)
     {
@@ -88,6 +88,57 @@ class Package {
         $this->description = $description;
         $this->keywords = $keywords;
         $this->time = $time;
+    }
+
+    public static function factory(array $packageInfo)
+    {
+        return new self(
+            $packageInfo['name'],
+            $packageInfo['version'],
+            $packageInfo['source'],
+            $packageInfo['dist'],
+            $packageInfo['require'],
+            isset($packageInfo['requireDev']) ? $packageInfo['requireDev'] : [],
+            $packageInfo['type'],
+            $packageInfo['autoload'],
+            isset($packageInfo['license']) ? $packageInfo['license'] : [],
+            isset($packageInfo['authors']) ? $packageInfo['authors'] : [],
+            $packageInfo['description'],
+            $packageInfo['keywords'],
+            new DateTime($packageInfo['time'])
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespace()
+    {
+        $namespace = '';
+
+        if (isset($this->autoload['psr-0'])) {
+            $namespace = $this->autoload['psr-0'];
+        } elseif (isset($this->autoload['psr-4'])) {
+            $namespace = $this->autoload['psr-4'];
+        }
+
+        return trim(key($namespace), '\\');
     }
 
 } 

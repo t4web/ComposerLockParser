@@ -12,8 +12,8 @@ Requirements
 
 Features / Goals
 ----------------
-* Create Composer Entity with full general information from composer.lock [IN PROGRESS]
-* Create Package Entity with full information about packges [IN PROGRESS]
+* Create Composer Entity with full general information from composer.lock [DONE]
+* Create Package Entity with full information about packges [DONE]
 
 Installation
 ------------
@@ -36,7 +36,7 @@ $packages = $composerInfo->getPackages();
 
 $packages[0]->getName();
 $packages[0]->getVersion();
-$packages[0]->getAuthors()[0]->getName();
+$packages[0]->getNamespace();
 ```
 
 Testing
