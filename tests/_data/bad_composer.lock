@@ -1,0 +1,15 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "bc3fc96991a54bac5552cddfe6d7b201",
+    "packages": [
+        {
+            "name": "league/climate",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/climate.git",
+                "reference": "ad66aec91e3ab45e87eda26949d5e83f85562b75"

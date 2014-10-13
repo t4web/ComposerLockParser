@@ -1,3 +1,4 @@
+namespace: ComposerLockParser
 actor: Tester
 paths:
     tests: tests
