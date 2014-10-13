@@ -21,7 +21,7 @@ Installation
 
 ```json
 "require": {
-    "t4web/composer-lock-parser": "0.1.*"
+    "t4web/composer-lock-parser": "1.0.*"
 }
 ```
 
