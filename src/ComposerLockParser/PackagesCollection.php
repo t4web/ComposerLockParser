@@ -9,7 +9,7 @@ class PackagesCollection extends ArrayObject
     /**
      * @var array
      */
-    private $indexedByName;
+    private $indexedBy;
 
     /**
      * @param string $name
@@ -18,7 +18,7 @@ class PackagesCollection extends ArrayObject
      */
     public function getByName($name)
     {
-        if (!$this->hasPackage($name)) {
+        if (!$this->hasByName($name)) {
             throw new \UnexpectedValueException("Package $name not exists");
         }
 
@@ -26,19 +26,44 @@ class PackagesCollection extends ArrayObject
     }
 
     /**
+     * @param string $namespace
+     *
+     * @return Package
+     */
+    public function getByNamespace($namespace)
+    {
+        if (!$this->hasByNamespace($namespace)) {
+            throw new \UnexpectedValueException("Package $namespace not exists");
+        }
+
+        return $this->getIndexedByNamespace()[$namespace];
+    }
+
+    /**
      * @param string $name
      *
      * @return bool
      */
-    public function hasPackage($name)
+    public function hasByName($name)
     {
         return array_key_exists($name, $this->getIndexedByName());
+    }
+
+    /**
+     * @param string $namespace
+     *
+     * @return bool
+     */
+    public function hasByNamespace($namespace)
+    {
+        return array_key_exists($namespace, $this->getIndexedByNamespace());
     }
 
     public function offsetSet($index, $package)
     {
         if ($package instanceof Package) {
-            $this->indexedByName[$package->getName()] = $package;
+            $this->indexedBy['name'][$package->getName()] = $package;
+            $this->indexedBy['namespace'][$package->getNamespace()] = $package;
         }
 
         return parent::offsetSet($index, $package);
@@ -49,8 +74,8 @@ class PackagesCollection extends ArrayObject
      */
     private function getIndexedByName()
     {
-        if (!empty($this->indexedByName)) {
-            return $this->indexedByName;
+        if (!empty($this->indexedBy['name'])) {
+            return $this->indexedBy['name'];
         }
 
         /** @var Package $package */
@@ -58,10 +83,30 @@ class PackagesCollection extends ArrayObject
             if (!($package instanceof Package)) {
                 continue;
             }
-            $this->indexedByName[$package->getName()] = $package;
+            $this->indexedBy['name'][$package->getName()] = $package;
         }
 
-        return $this->indexedByName;
+        return $this->indexedBy['name'];
+    }
+
+    /**
+     * @return array
+     */
+    private function getIndexedByNamespace()
+    {
+        if (!empty($this->indexedBy['namespace'])) {
+            return $this->indexedBy['namespace'];
+        }
+
+        /** @var Package $package */
+        foreach($this->getArrayCopy() as $package) {
+            if (!($package instanceof Package)) {
+                continue;
+            }
+            $this->indexedBy['namespace'][$package->getNamespace()] = $package;
+        }
+
+        return $this->indexedBy['namespace'];
     }
 
 }
