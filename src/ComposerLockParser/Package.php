@@ -126,6 +126,54 @@ class Package {
     }
 
     /**
+     * @return array
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDist()
+    {
+        return $this->dist;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequire()
+    {
+        return $this->require;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequireDev()
+    {
+        return $this->requireDev;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAutoload()
+    {
+        return $this->autoload;
+    }
+
+    /**
      * @return string
      */
     public function getNamespace()
@@ -141,4 +189,44 @@ class Package {
         return trim(key($namespace), '\\');
     }
 
-} 
+    /**
+     * @return array
+     */
+    public function getLicense()
+    {
+        return $this->license;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return array
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+}
