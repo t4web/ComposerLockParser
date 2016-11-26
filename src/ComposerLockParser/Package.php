@@ -104,7 +104,7 @@ class Package {
             isset($packageInfo['license']) ? $packageInfo['license'] : [],
             isset($packageInfo['authors']) ? $packageInfo['authors'] : [],
             $packageInfo['description'],
-            $packageInfo['keywords'],
+            isset($packageInfo['keywords']) ? $packageInfo['keywords'] : [],
             new DateTime($packageInfo['time'])
         );
     }
