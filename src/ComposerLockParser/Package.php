@@ -73,7 +73,7 @@ class Package {
 
     private function __construct($name, $version, array $source, array $dist, array $require,
         array $requireDev, $type, array $autoload, array $license, array $authors, $description,
-        array $keywords, DateTime $time)
+        array $keywords, $time)
     {
         $this->name = $name;
         $this->version = $version;
@@ -99,13 +99,13 @@ class Package {
             isset($packageInfo['dist']) ? $packageInfo['dist'] : [],
             isset($packageInfo['require']) ? $packageInfo['require'] : [],
             isset($packageInfo['requireDev']) ? $packageInfo['requireDev'] : [],
-            $packageInfo['type'],
+            isset($packageInfo['type']) ? $packageInfo['type'] : '',
             isset($packageInfo['autoload']) ? $packageInfo['autoload'] : [],
             isset($packageInfo['license']) ? $packageInfo['license'] : [],
             isset($packageInfo['authors']) ? $packageInfo['authors'] : [],
-            $packageInfo['description'],
+            isset($packageInfo['description']) ? $packageInfo['description'] : '',
             isset($packageInfo['keywords']) ? $packageInfo['keywords'] : [],
-            new DateTime($packageInfo['time'])
+            isset($packageInfo['time']) ? new DateTime($packageInfo['time']) : null
         );
     }
 
@@ -178,7 +178,7 @@ class Package {
      */
     public function getNamespace()
     {
-        $namespace = '';
+        $namespace = [];
 
         if (isset($this->autoload['psr-0'])) {
             $namespace = $this->autoload['psr-0'];
@@ -222,7 +222,7 @@ class Package {
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getTime()
     {
