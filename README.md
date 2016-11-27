@@ -30,7 +30,7 @@ Usage
 Creating ComposerInfo object
 ```php
 $composerInfo = new ComposerLockParser\Composer('/path/to/composer.lock');
-$composerInfo->getHash();
+$composerInfo->parse();
 
 $packages = $composerInfo->getPackages();
 
