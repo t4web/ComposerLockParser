@@ -29,7 +29,7 @@ Usage
 ------------
 Creating ComposerInfo object
 ```php
-$composerInfo = new ComposerLockParser\Composer('/path/to/composer.lock');
+$composerInfo = new ComposerLockParser\ComposerInfo('/path/to/composer.lock');
 $composerInfo->parse();
 
 $packages = $composerInfo->getPackages();
