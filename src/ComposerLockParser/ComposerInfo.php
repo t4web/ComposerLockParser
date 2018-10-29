@@ -22,9 +22,10 @@ class ComposerInfo {
     public function __construct($pathToLockFile)
     {
         $this->pathToLockFile = $pathToLockFile;
+        self::parse();
     }
 
-    public function parse()
+    private function parse()
     {
         $this->checkFile();
 
