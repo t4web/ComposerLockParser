@@ -60,6 +60,11 @@ class Package {
      * @var string
      */
     private $description;
+    
+    /**
+     * @var string
+     */
+    private $homepage;
 
     /**
      * @var array
@@ -71,12 +76,13 @@ class Package {
      */
     private $time;
 
-    private function __construct($name, $version, array $source, array $dist, array $require,
-        array $requireDev, $type, array $autoload, array $license, array $authors, $description,
+    private function __construct(string $name, string $version, string $homepage, array $source, array $dist, array $require,
+        array $requireDev, string $type, array $autoload, array $license, array $authors, $description,
         array $keywords, $time)
     {
         $this->name = $name;
         $this->version = $version;
+        $this->homepage = $homepage;
         $this->source = $source;
         $this->dist = $dist;
         $this->require = $require;
@@ -95,6 +101,7 @@ class Package {
         return new self(
             $packageInfo['name'],
             $packageInfo['version'],
+            isset($packageInfo['homepage']) ? $packageInfo['homepage'] : [],
             isset($packageInfo['source']) ? $packageInfo['source'] : [],
             isset($packageInfo['dist']) ? $packageInfo['dist'] : [],
             isset($packageInfo['require']) ? $packageInfo['require'] : [],
@@ -123,6 +130,14 @@ class Package {
     public function getVersion()
     {
         return $this->version;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
     }
 
     /**
