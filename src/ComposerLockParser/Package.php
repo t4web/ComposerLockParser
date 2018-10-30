@@ -37,6 +37,11 @@ class Package {
     private $requireDev;
 
     /**
+     * @var array
+     */
+    private $suggest;
+
+    /**
      * @var string
      */
     private $type;
@@ -44,7 +49,17 @@ class Package {
     /**
      * @var array
      */
+    private $extra;
+
+    /**
+     * @var array
+     */
     private $autoload;
+
+    /**
+     * @var string
+     */
+    private $notificationUrl;
 
     /**
      * @var array
@@ -62,6 +77,11 @@ class Package {
     private $description;
 
     /**
+     * @var string
+     */
+    private $homepage;
+
+    /**
      * @var array
      */
     private $keywords;
@@ -71,8 +91,8 @@ class Package {
      */
     private $time;
 
-    private function __construct($name, $version, array $source, array $dist, array $require,
-        array $requireDev, $type, array $autoload, array $license, array $authors, $description,
+    private function __construct(string $name, string $version, array $source, array $dist, array $require,
+        array $requireDev, array $suggest, string $type, array $extra, array $autoload, string $notificationUrl, array $license, array $authors, string $description, string $homepage,
         array $keywords, $time)
     {
         $this->name = $name;
@@ -81,11 +101,15 @@ class Package {
         $this->dist = $dist;
         $this->require = $require;
         $this->requireDev = $requireDev;
+        $this->suggest = $suggest;
         $this->type = $type;
+        $this->extra = $extra;
         $this->autoload = $autoload;
         $this->license = $license;
+        $this->notificationUrl = $notificationUrl;
         $this->authors = $authors;
         $this->description = $description;
+        $this->homepage = $homepage;
         $this->keywords = $keywords;
         $this->time = $time;
     }
@@ -98,12 +122,16 @@ class Package {
             isset($packageInfo['source']) ? $packageInfo['source'] : [],
             isset($packageInfo['dist']) ? $packageInfo['dist'] : [],
             isset($packageInfo['require']) ? $packageInfo['require'] : [],
-            isset($packageInfo['requireDev']) ? $packageInfo['requireDev'] : [],
+            isset($packageInfo['require-dev']) ? $packageInfo['require-dev'] : [],
+            isset($packageInfo['suggest']) ? $packageInfo['suggest'] : [],
             isset($packageInfo['type']) ? $packageInfo['type'] : '',
+            isset($packageInfo['extra']) ? $packageInfo['extra'] : [],
             isset($packageInfo['autoload']) ? $packageInfo['autoload'] : [],
+            isset($packageInfo['notification-url']) ? $packageInfo['notification-url'] : '',
             isset($packageInfo['license']) ? $packageInfo['license'] : [],
             isset($packageInfo['authors']) ? $packageInfo['authors'] : [],
             isset($packageInfo['description']) ? $packageInfo['description'] : '',
+            isset($packageInfo['homepage']) ? $packageInfo['homepage'] : '',
             isset($packageInfo['keywords']) ? $packageInfo['keywords'] : [],
             isset($packageInfo['time']) ? new DateTime($packageInfo['time']) : null
         );
@@ -123,6 +151,14 @@ class Package {
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
     }
 
     /**
