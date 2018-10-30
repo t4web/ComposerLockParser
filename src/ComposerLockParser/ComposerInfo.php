@@ -22,7 +22,6 @@ class ComposerInfo {
     public function __construct($pathToLockFile)
     {
         $this->pathToLockFile = $pathToLockFile;
-        self::parse();
     }
 
     private function parse()
@@ -57,6 +56,10 @@ class ComposerInfo {
      */
     public function getPackages()
     {
+        if (empty($this->decodedValue)) {
+            $this->parse();
+        }
+        
         if ($this->packages) {
             return $this->packages;
         }
