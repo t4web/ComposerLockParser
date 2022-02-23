@@ -59,14 +59,14 @@ class PackagesCollection extends ArrayObject
         return array_key_exists($namespace, $this->getIndexedByNamespace());
     }
 
-    public function offsetSet($index, $package)
+    public function offsetSet($index, $package): void
     {
         if ($package instanceof Package) {
             $this->indexedBy['name'][$package->getName()] = $package;
             $this->indexedBy['namespace'][$package->getNamespace()] = $package;
         }
 
-        return parent::offsetSet($index, $package);
+        parent::offsetSet($index, $package);
     }
 
     /**
