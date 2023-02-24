@@ -37,6 +37,18 @@ echo $packages[0]->getVersion();
 echo $packages[0]->getNamespace();
 ```
 
+Getting just production packages.
+```php
+$composerInfo = new ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+$packages = $composerInfo->getPackages(1);
+```
+
+Getting just development packages.
+```php
+$composerInfo = new ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+$packages = $composerInfo->getPackages(1);
+```
+
 Testing
 ------------
 Tests runs with Codeception
