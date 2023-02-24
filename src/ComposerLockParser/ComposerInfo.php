@@ -52,9 +52,15 @@ class ComposerInfo {
     }
 
     /**
+     * Get the list of packages as a collection object.
+     *
+     * @param int $list What list of packages should we return.
+     *      0 - Both dev and production.
+     *      1 - Just production.
+     *      2 - Just dev.
      * @return PackagesCollection of Package
      */
-    public function getPackages()
+    public function getPackages($list = 0)
     {
         if (empty($this->decodedValue)) {
             $this->parse();
@@ -66,8 +72,18 @@ class ComposerInfo {
 
         $this->packages = new PackagesCollection();
 
-        foreach($this->decodedValue['packages'] as $packageInfo) {
-            $this->packages[] = Package::factory($packageInfo);
+        // Production packages
+        if (in_array($list, [0, 1]) && isset($this->decodedValue['packages'])) {
+            foreach ($this->decodedValue['packages'] as $packageInfo) {
+                $this->packages->append(Package::factory($packageInfo));
+            }
+        }
+
+        // Dev packages
+        if (in_array($list, [0, 2]) && isset($this->decodedValue['packages-dev'])) {
+            foreach ($this->decodedValue['packages-dev'] as $packageInfo) {
+                $this->packages->append(Package::factory($packageInfo));
+            }
         }
 
         return $this->packages;
@@ -75,8 +91,10 @@ class ComposerInfo {
 
     private function checkFile()
     {
-        if (!file_exists($this->pathToLockFile)) {
-            throw new RuntimeException("File {$this->pathToLockFile} not found or not readable");
+        if (!file_exists($this->pathToLockFile) || !is_readable($this->pathToLockFile)) {
+            throw new RuntimeException(__('File {0} not found or not readable', [
+                $this->pathToLockFile,
+            ]));
         }
     }
 
