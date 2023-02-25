@@ -19,6 +19,24 @@ class ComposerInfo {
      */
     private $packages;
 
+    /**
+     * Constant flag for all packages, see getPackage()
+     * @var int
+     */
+    const ALL = 0;
+
+    /**
+     * Constant flag for production packages, see getPackage()
+     * @var int
+     */
+    const PRODUCTION = 1;
+
+    /**
+     * Constant flag for development packages, see getPackage()
+     * @var int
+     */
+    const DEVELOPMENT = 2;
+
     public function __construct($pathToLockFile)
     {
         $this->pathToLockFile = $pathToLockFile;
@@ -55,12 +73,12 @@ class ComposerInfo {
      * Get the list of packages as a collection object.
      *
      * @param int $list What list of packages should we return.
-     *      0 - Both dev and production.
-     *      1 - Just production.
-     *      2 - Just dev.
+     *      self::ALL - Both dev and production.
+     *      self::PRODUCTION - Just production.
+     *      se=lf::DEVELOPMENT - Just dev.
      * @return PackagesCollection of Package
      */
-    public function getPackages($list = 0)
+    public function getPackages($list = self::ALL)
     {
         if (empty($this->decodedValue)) {
             $this->parse();
@@ -90,9 +108,7 @@ class ComposerInfo {
     private function checkFile()
     {
         if (!file_exists($this->pathToLockFile) || !is_readable($this->pathToLockFile)) {
-            throw new RuntimeException(__('File {0} not found or not readable', [
-                $this->pathToLockFile,
-            ]));
+            throw new RuntimeException('File ' . $this->pathToLockFile . 'not found or not readable');
         }
     }
 
