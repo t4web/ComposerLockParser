@@ -108,7 +108,7 @@ class ComposerInfo {
     private function checkFile()
     {
         if (!file_exists($this->pathToLockFile) || !is_readable($this->pathToLockFile)) {
-            throw new RuntimeException('File ' . $this->pathToLockFile . 'not found or not readable');
+            throw new RuntimeException("File {$this->pathToLockFile} not found or not readable.");
         }
     }
 
