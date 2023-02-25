@@ -65,10 +65,8 @@ class ComposerInfo {
         if (empty($this->decodedValue)) {
             $this->parse();
         }
-        
-        if ($this->packages) {
-            return $this->packages;
-        }
+
+        // remove the check if packages is already set.
 
         $this->packages = new PackagesCollection();
 
