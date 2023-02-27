@@ -27,14 +27,29 @@ Installation
 
 Usage
 ------------
-Creating ComposerInfo object
+Creating ComposerInfo object and getting all of the packages
 ```php
-$composerInfo = new ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+$composerInfo = new \ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+// default all packages
 $packages = $composerInfo->getPackages();
+// or explicitly get all packages
+$packages = $composerInfo->getPackages($composerInfo::ALL);
 
 echo $packages[0]->getName();
 echo $packages[0]->getVersion();
 echo $packages[0]->getNamespace();
+```
+
+Getting just production packages.
+```php
+$composerInfo = new \ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+$packages = $composerInfo->getPackages($composerInfo::PRODUCTION);
+```
+
+Getting just development packages.
+```php
+$composerInfo = new \ComposerLockParser\ComposerInfo('/path/to/composer.lock');
+$packages = $composerInfo->getPackages($composerInfo::DEVELOPMENT);
 ```
 
 Testing

@@ -19,6 +19,24 @@ class ComposerInfo {
      */
     private $packages;
 
+    /**
+     * Constant flag for all packages, see getPackage()
+     * @var int
+     */
+    const ALL = 0;
+
+    /**
+     * Constant flag for production packages, see getPackage()
+     * @var int
+     */
+    const PRODUCTION = 1;
+
+    /**
+     * Constant flag for development packages, see getPackage()
+     * @var int
+     */
+    const DEVELOPMENT = 2;
+
     public function __construct($pathToLockFile)
     {
         $this->pathToLockFile = $pathToLockFile;
@@ -52,22 +70,36 @@ class ComposerInfo {
     }
 
     /**
+     * Get the list of packages as a collection object.
+     *
+     * @param int $list What list of packages should we return.
+     *      self::ALL - Both dev and production.
+     *      self::PRODUCTION - Just production.
+     *      se=lf::DEVELOPMENT - Just dev.
      * @return PackagesCollection of Package
      */
-    public function getPackages()
+    public function getPackages($list = self::ALL)
     {
         if (empty($this->decodedValue)) {
             $this->parse();
         }
-        
-        if ($this->packages) {
-            return $this->packages;
-        }
+
+        // remove the check if packages is already set.
 
         $this->packages = new PackagesCollection();
 
-        foreach($this->decodedValue['packages'] as $packageInfo) {
-            $this->packages[] = Package::factory($packageInfo);
+        // Production packages
+        if (in_array($list, [0, 1]) && isset($this->decodedValue['packages'])) {
+            foreach ($this->decodedValue['packages'] as $packageInfo) {
+                $this->packages->append(Package::factory($packageInfo));
+            }
+        }
+
+        // Dev packages
+        if (in_array($list, [0, 2]) && isset($this->decodedValue['packages-dev'])) {
+            foreach ($this->decodedValue['packages-dev'] as $packageInfo) {
+                $this->packages->append(Package::factory($packageInfo));
+            }
         }
 
         return $this->packages;
@@ -75,8 +107,8 @@ class ComposerInfo {
 
     private function checkFile()
     {
-        if (!file_exists($this->pathToLockFile)) {
-            throw new RuntimeException("File {$this->pathToLockFile} not found or not readable");
+        if (!file_exists($this->pathToLockFile) || !is_readable($this->pathToLockFile)) {
+            throw new RuntimeException("File {$this->pathToLockFile} not found or not readable.");
         }
     }
 
